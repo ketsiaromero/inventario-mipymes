@@ -1,0 +1,29 @@
+# Despliegue en Render (https://render.com) como "Blueprint".
+# Revisen las condiciones vigentes del plan gratuito antes del piloto:
+# la base de datos gratuita puede tener vencimiento.
+databases:
+  - name: inventario-db
+    plan: free
+    databaseName: inventario
+    user: inventario
+
+services:
+  - type: web
+    name: inventario-mipymes
+    runtime: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn config.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: inventario-db
+          property: connectionString
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: ALERTA_DIAS_VENCIMIENTO
+        value: "7"
