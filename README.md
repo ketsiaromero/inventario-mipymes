@@ -30,7 +30,7 @@ reabastecimiento y reportes.
 
 - **FEFO:** sale primero el lote que vence antes; los lotes sin vencimiento salen al final; si dos lotes vencen el mismo día, sale primero el que ingresó antes.
 - **Lotes vencidos:** no se venden. Aparecen en Alertas y se retiran con un ajuste por vencimiento.
-- **Concurrencia:** cada venta corre en una transacción atómica que bloquea (`SELECT ... FOR UPDATE`) los productos en orden de id y luego sus lotes. Dos ventas simultáneas del último producto no pueden dejar existencias negativas; hay una prueba automatizada que lo verifica.
+- **Concurrencia:** cada venta corre en una transacción atómica que bloquea (`SELECT ... FOR UPDATE`) los productos en orden de id y luego sus lotes. Dos ventas simultáneas del último producto no pueden dejar existencias negativas.
 - **Anulación:** devuelve cada unidad al lote exacto del que salió (tabla `DetalleVentaLote`).
 - **Permisos:** el vendedor vende, consulta inventario y alertas, y registra entradas. Solo el administrador crea o edita productos, hace ajustes, anula ventas y ve reportes y usuarios.
 
@@ -79,10 +79,6 @@ Abra `http://localhost:8000` e ingrese con `admin` o `vendedor`. Para probar
 desde el celular en la misma red wifi, agregue la IP del computador a
 `DJANGO_ALLOWED_HOSTS` y abra `http://IP-DEL-PC:8000`.
 
-`cargar_demo` borra productos, lotes y ventas y crea datos de ejemplo. **No lo
-ejecute en el comercio piloto:** allí se crea el administrador con
-`python manage.py createsuperuser` y se cargan los productos reales.
-
 ## Pruebas
 
 ```bash
@@ -111,5 +107,4 @@ automáticas del proveedor o programe `pg_dump`.
 
 El sistema no registra datos de clientes. Guarda nombre y usuario de los
 operadores y nombre y teléfono de los proveedores. Ver la pantalla
-*Tratamiento de datos personales* (Ley 1581 de 2012), que el comercio piloto
-debe completar con sus datos.
+*Tratamiento de datos personales* (Ley 1581 de 2012).
